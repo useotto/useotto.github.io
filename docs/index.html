@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Otto — the verification code, already typed</title>
+  <meta name="description" content="Otto reads the one-time code from your inbox and drops it into the right login — one click, on every Chromium browser. Free, open source, on-device." />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content="Otto — email OTP autofill for any browser" />
+  <meta property="og:description" content="Safari-style verification-code autofill for Chrome, Arc, Edge & Brave. Free and open source." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bloom" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ───────────────────────── NAV ───────────────────────── -->
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="Otto home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="27" height="27">
+          <rect x="2.5" y="2.5" width="27" height="27" rx="8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <rect x="14.4" y="9" width="3.2" height="14" rx="1.6" class="mark-caret"/>
+        </svg>
+      </span>
+      <span class="brand-word">Otto</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a class="ghost" href="https://github.com/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        Star
+      </a>
+      <a class="btn primary" href="#install">Add to browser</a>
+    </div>
+  </header>
+
+  <!-- ───────────────────────── HERO ───────────────────────── -->
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow reveal">OTP autofill · for every Chromium browser</p>
+      <h1 class="reveal d1">The verification code,<br><em>already typed.</em></h1>
+      <p class="lede reveal d2">
+        Otto reads the one-time code from your inbox and offers it on the exact page
+        it was meant for — one click, no copy-paste, no app-switching. Like Safari's
+        autofill, finally on <strong>Chrome, Arc, Edge &amp; Brave</strong>.
+      </p>
+      <div class="hero-actions reveal d3">
+        <a class="btn primary big" href="#install">Add to browser — free</a>
+        <a class="btn ghost-line big" href="#how">See how it works</a>
+      </div>
+      <ul class="hero-trust reveal d4">
+        <li><span class="dot"></span> 100% on-device</li>
+        <li><span class="dot"></span> No account</li>
+        <li><span class="dot"></span> Open source</li>
+      </ul>
+
+      <!-- signature live demo -->
+      <div class="hero-demo reveal d3" aria-hidden="true">
+        <div class="window">
+          <div class="window-bar">
+            <span class="traffic"></span><span class="traffic"></span><span class="traffic"></span>
+            <span class="window-url">superdm.com/verify</span>
+          </div>
+          <div class="window-body">
+            <p class="verify-title">Enter your verification code</p>
+            <p class="verify-sub">Sent to your email · expires in 10:00</p>
+            <div class="otp-boxes">
+              <span class="otp-box"><i>1</i></span>
+              <span class="otp-box"><i>5</i></span>
+              <span class="otp-box"><i>7</i></span>
+              <span class="otp-box"><i>0</i></span>
+              <span class="otp-box"><i>0</i></span>
+              <span class="otp-box"><i>4</i></span>
+            </div>
+            <button class="verify-btn">Verify</button>
+            <div class="otto-chip">
+              <span class="chip-key">↵</span>
+              <span>Fill code <b>157&nbsp;004</b></span>
+              <span class="chip-src">SuperDM · Gmail</span>
+            </div>
+          </div>
+        </div>
+        <p class="demo-caption"><span class="live"></span> live preview — looping</p>
+      </div>
+    </section>
+
+    <!-- ───────────────────── MARQUEE ───────────────────── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Gmail</span><span class="sep">·</span><span>split-box fields</span><span class="sep">·</span>
+        <span>React &amp; Vue forms</span><span class="sep">·</span><span>source-aware</span><span class="sep">·</span>
+        <span>Chrome</span><span class="sep">·</span><span>Arc</span><span class="sep">·</span><span>Edge</span><span class="sep">·</span><span>Brave</span><span class="sep">·</span>
+        <span>zero copy-paste</span><span class="sep">·</span>
+        <span>Gmail</span><span class="sep">·</span><span>split-box fields</span><span class="sep">·</span>
+        <span>React &amp; Vue forms</span><span class="sep">·</span><span>source-aware</span><span class="sep">·</span>
+        <span>Chrome</span><span class="sep">·</span><span>Arc</span><span class="sep">·</span><span>Edge</span><span class="sep">·</span><span>Brave</span><span class="sep">·</span><span>zero copy-paste</span><span class="sep">·</span>
+      </div>
+    </div>
+
+    <!-- ───────────────────── HOW IT WORKS ───────────────────── -->
+    <section id="how" class="section">
+      <div class="section-head">
+        <p class="kicker">01 — the flow</p>
+        <h2>Three seconds, zero friction.</h2>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <span class="step-no">1</span>
+          <h3>The code lands</h3>
+          <p>A site emails you a one-time code. It arrives in Gmail like always — a tab quietly open in the background.</p>
+        </article>
+        <article class="step">
+          <span class="step-no">2</span>
+          <h3>Otto reads it</h3>
+          <p>Otto grabs the code <em>and</em> the service it's for — ignoring dates, order numbers and other noise.</p>
+        </article>
+        <article class="step">
+          <span class="step-no">3</span>
+          <h3>It fills the right page</h3>
+          <p>A chip appears only on the login it belongs to. One click and all six boxes fill themselves.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FEATURES ───────────────────── -->
+    <section id="features" class="section features">
+      <div class="section-head">
+        <p class="kicker">02 — why otto</p>
+        <h2>Built to disappear<br>into your day.</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="card big">
+          <h3>It knows where the code belongs</h3>
+          <p>Otto reads which service sent the code and only offers it on that site. Jump to another tab and the suggestion won't follow you where it doesn't belong.</p>
+          <div class="card-glyph mono">SuperDM&nbsp;→&nbsp;1 5 7 0 0 4</div>
+        </article>
+        <article class="card">
+          <h3>Used once, gone</h3>
+          <p>Fill a code and Otto retires it. A freshly sent code — even the same digits — counts as new and active.</p>
+        </article>
+        <article class="card">
+          <h3>Fills the tricky fields</h3>
+          <p>Single inputs, six separate digit boxes, stubborn React &amp; Vue forms — Otto fires the right events so it sticks.</p>
+        </article>
+        <article class="card">
+          <h3>Every Chromium browser</h3>
+          <p>Chrome, Arc, Edge, Brave. The seamless feel Mac users only had in Safari — now everywhere.</p>
+        </article>
+        <article class="card">
+          <h3>No account, ever</h3>
+          <p>Install and go. No sign-up, no onboarding. It works the moment it's added.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────── PRICING ───────────────────── -->
+    <section id="pricing" class="section pricing">
+      <div class="section-head center">
+        <p class="kicker">03 — pricing</p>
+        <h2>Priced the way it should be.</h2>
+        <p class="section-sub">No tiers, no trials, no catch. Otto is free and open source — support it only if it earns a place in your day.</p>
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <p class="plan-name">The Extension</p>
+          <p class="plan-price">Free<span>/forever</span></p>
+          <ul class="plan-list">
+            <li>Source-aware autofill</li>
+            <li>Split-box &amp; React forms</li>
+            <li>100% on-device</li>
+            <li>No account required</li>
+          </ul>
+          <a class="btn ghost-line full" href="#install">Add to browser</a>
+        </article>
+
+        <article class="plan featured">
+          <span class="plan-flag">Open source</span>
+          <p class="plan-name">The Code</p>
+          <p class="plan-price">$0<span>/MIT</span></p>
+          <ul class="plan-list">
+            <li>Every line auditable</li>
+            <li>Fork &amp; self-host freely</li>
+            <li>No servers, no analytics</li>
+            <li>Community-driven roadmap</li>
+          </ul>
+          <a class="btn solid full" href="https://github.com/" target="_blank" rel="noopener">★ Star on GitHub</a>
+        </article>
+
+        <article class="plan">
+          <p class="plan-name">Support</p>
+          <p class="plan-price">Pay<span>/what you want</span></p>
+          <ul class="plan-list">
+            <li>Fund maintenance</li>
+            <li>Sponsor new providers</li>
+            <li>Get a warm feeling</li>
+            <li>Cancel anytime (it's a tip)</li>
+          </ul>
+          <a class="btn ghost-line full" href="https://github.com/sponsors/" target="_blank" rel="noopener">♥ Sponsor / donate</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────── PRIVACY ───────────────────── -->
+    <section id="privacy" class="section privacy">
+      <div class="privacy-inner">
+        <div class="privacy-head">
+          <p class="kicker">04 — privacy</p>
+          <h2>Nothing leaves<br>your browser.</h2>
+          <p class="privacy-lede">
+            Otto has no servers, no analytics, and no backend to leak. The code is read
+            from your own open Gmail tab and stays on your machine — full stop.
+          </p>
+          <a class="btn ghost-line" href="https://github.com/" target="_blank" rel="noopener">Read the source →</a>
+        </div>
+        <ul class="privacy-list">
+          <li><span class="tick">✓</span> No data ever sent to a server</li>
+          <li><span class="tick">✓</span> No tracking, no analytics, no ads</li>
+          <li><span class="tick">✓</span> No account or email required</li>
+          <li><span class="tick">✓</span> Reads only your open Gmail tab</li>
+          <li><span class="tick">✓</span> Codes expire from memory in minutes</li>
+          <li><span class="tick">✓</span> Open source &amp; independently auditable</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ───────────────────── INSTALL ───────────────────── -->
+    <section id="install" class="section install">
+      <div class="install-card">
+        <p class="kicker center-k">05 — get otto</p>
+        <h2>Add it in about a minute.</h2>
+        <p class="install-lede">Otto is in early release — load it unpacked today, or grab the Web Store build soon.</p>
+        <div class="install-actions">
+          <a class="btn solid big" href="https://github.com/" target="_blank" rel="noopener">Get the extension</a>
+          <a class="btn ghost-line big" href="#how">How it works</a>
+        </div>
+        <ol class="install-steps mono">
+          <li><span>01</span> Download or clone the repo</li>
+          <li><span>02</span> Open <code>chrome://extensions</code> → enable Developer mode</li>
+          <li><span>03</span> “Load unpacked” → pick the folder</li>
+          <li><span>04</span> Keep a Gmail tab open. Done.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FAQ ───────────────────── -->
+    <section id="faq" class="section faq">
+      <div class="section-head">
+        <p class="kicker">06 — questions</p>
+        <h2>Good things to know.</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>How does it only show on the right page?</summary>
+          <p>Otto reads which service the code is for — from the sender and the wording of the email (“your code to sign in to SuperDM”). It then offers the code only on a page that matches. Switch tabs and the chip stays behind where it belongs.</p>
+        </details>
+        <details>
+          <summary>Does my Gmail have to be open?</summary>
+          <p>It needs to be open as a <em>background</em> tab — you never have to look at it. You stay on the login page while Otto watches your inbox quietly behind it.</p>
+        </details>
+        <details>
+          <summary>Is my email safe? Where does the code go?</summary>
+          <p>Nowhere but your own browser. Otto reads the code from your open Gmail tab and keeps it locally for a few minutes. No servers, nothing uploaded — and it's open source, so you can verify exactly that.</p>
+        </details>
+        <details>
+          <summary>What if the same code is sent again?</summary>
+          <p>Once you use a code, Otto retires it. If the site re-sends — even with identical digits — Otto stamps the new arrival and treats it as a fresh, active code you can use again.</p>
+        </details>
+        <details>
+          <summary>Which browsers work?</summary>
+          <p>Any Chromium-based browser: Chrome, Arc, Edge, and Brave. If it runs Chrome extensions, it runs Otto.</p>
+        </details>
+        <details>
+          <summary>What about Outlook, iCloud or Proton?</summary>
+          <p>Gmail is supported today. Other providers are on the roadmap — the architecture makes each one a small add-on. Want one next? Open an issue on GitHub.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- ───────────────────────── FOOTER ───────────────────────── -->
+  <footer class="footer">
+    <div class="footer-top">
+      <a class="brand" href="#top" aria-label="Otto home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="24" height="24">
+            <rect x="2.5" y="2.5" width="27" height="27" rx="8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <rect x="14.4" y="9" width="3.2" height="14" rx="1.6" class="mark-caret"/>
+          </svg>
+        </span>
+        <span class="brand-word">Otto</span>
+      </a>
+      <p class="footer-tag">The verification code, already typed.</p>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MIT licensed · open source</span>
+      <span>Made for everyone who hates copying codes.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

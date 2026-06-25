@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Otto — Email OTP Autofill",
+  "version": "0.1.0",
+  "description": "The verification code, already typed. Otto reads one-time codes from your open Gmail tab and fills them on any site — like Safari's OTP autofill, for any Chromium browser.",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["https://mail.google.com/*"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Otto — Email OTP Autofill",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["src/gmail-scraper.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/autofill.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

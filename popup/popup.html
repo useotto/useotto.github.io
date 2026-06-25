@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 260px;
+        margin: 0;
+        font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #1f1f23;
+        color: #fff;
+      }
+      .wrap { padding: 14px; }
+      h1 { font-size: 13px; margin: 0 0 10px; color: #9aa0a6; font-weight: 600; }
+      .code {
+        font-size: 28px; font-weight: 700; letter-spacing: 3px;
+        font-variant-numeric: tabular-nums; text-align: center;
+        padding: 14px 0; background: #2a2a31; border-radius: 10px;
+      }
+      .meta { color: #9aa0a6; font-size: 11px; margin: 8px 0 0; text-align: center; }
+      .code.is-used { color: #6e6e76; text-decoration: line-through; }
+      .used { text-align: center; font-size: 11px; color: #b7b7bf; margin-top: 6px; }
+      .empty { color: #9aa0a6; text-align: center; padding: 18px 0; }
+      button {
+        width: 100%; margin-top: 10px; padding: 9px; border: none;
+        border-radius: 8px; background: #1a73e8; color: #fff;
+        font-weight: 600; cursor: pointer;
+      }
+      button:hover { background: #1b66c9; }
+      .hint { color: #9aa0a6; font-size: 11px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Otto · Email OTP Autofill</h1>
+      <div id="content"></div>
+      <p class="hint">Keep a Gmail tab open. New codes pop up as a chip on any
+        page with a verification field.</p>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+# Local tooling / OS cruft — never publish
+.claude/
+.DS_Store
+*.log
+node_modules/
