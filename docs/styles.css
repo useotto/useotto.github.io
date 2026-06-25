@@ -314,9 +314,10 @@ em { font-style: normal; }
 .install-lede { color: var(--muted); margin: 1rem auto 2rem; max-width: 44ch; }
 .install-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
 .install-steps { list-style: none; text-align: left; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.7rem; }
-.install-steps li { display: flex; align-items: center; gap: 0.9rem; font-size: 0.9rem; color: var(--silver-2); padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,0.02); }
-.install-steps li span { color: var(--silver-1); font-weight: 700; }
-.install-steps code { background: rgba(255,255,255,0.06); padding: 0.1em 0.45em; border-radius: 5px; font-size: 0.85em; color: var(--text); }
+.install-steps li { display: flex; align-items: flex-start; gap: 0.9rem; font-size: 0.9rem; color: var(--silver-2); padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,0.02); }
+.install-steps li .n { color: var(--silver-1); font-weight: 700; flex-shrink: 0; }
+.install-steps li .t { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.install-steps code { background: rgba(255,255,255,0.06); padding: 0.1em 0.45em; border-radius: 5px; font-size: 0.85em; color: var(--text); overflow-wrap: anywhere; }
 
 /* faq */
 .faq-list { border-top: 1px solid var(--line); }
