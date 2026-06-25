@@ -27,6 +27,16 @@
         font-weight: 600; cursor: pointer;
       }
       button:hover { background: #1b66c9; }
+      .donate {
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        width: 100%; box-sizing: border-box; margin-top: 8px; padding: 8px;
+        border: 1px solid #3a3a42; border-radius: 8px;
+        background: transparent; color: #d6d6db; font-weight: 600;
+        font-size: 12px; text-decoration: none; cursor: pointer;
+        transition: background .15s, border-color .15s, color .15s;
+      }
+      .donate:hover { background: #2a2a31; border-color: #5a5a63; color: #fff; }
+      .donate .heart { color: #ff5c7a; }
       .hint { color: #9aa0a6; font-size: 11px; margin-top: 12px; }
     </style>
   </head>
@@ -34,6 +44,10 @@
     <div class="wrap">
       <h1>Otto · Email OTP Autofill</h1>
       <div id="content"></div>
+      <a class="donate" href="https://github.com/sponsors/useotto"
+         target="_blank" rel="noopener">
+        <span class="heart">♥</span> Loving Otto? Sponsor it
+      </a>
       <p class="hint">Keep a Gmail tab open. New codes pop up as a chip on any
         page with a verification field.</p>
     </div>
