@@ -237,6 +237,17 @@
     }
   }
 
+  // The background pings us once a minute (and on demand). Messages are
+  // delivered immediately even when this tab is backgrounded and its own
+  // setInterval is throttled — so detection keeps working in the background.
+  try {
+    chrome.runtime.onMessage.addListener((msg) => {
+      if (msg && msg.type === "SCAN_NOW") scan();
+    });
+  } catch (e) {
+    // Extension context invalidated after a reload — ignore.
+  }
+
   setInterval(scan, POLL_MS);
   scan();
 })();

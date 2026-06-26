@@ -55,9 +55,48 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   }
 });
 
-// Clear the badge once the code goes stale (service worker may sleep, so we
-// also use an alarm as a best-effort timer).
+// ---------------------------------------------------------------------------
+// Keep the Gmail tab alive & scanning even as a background tab.
+// Chrome throttles hidden tabs' timers and can DISCARD inactive tabs entirely
+// (Memory Saver), which would silently stop OTP detection. We:
+//   1) mark the Gmail tab non-discardable so Memory Saver won't drop it, and
+//   2) ping it once a minute to scan — an alarm-driven message runs right away,
+//      sidestepping the background-timer throttling.
+// Uses only existing permissions (alarms + the mail.google.com host grant).
+
+const KEEPALIVE_ALARM = "gmailKeepAlive";
+
+function ensureKeepAlive() {
+  chrome.alarms.create(KEEPALIVE_ALARM, { periodInMinutes: 1 });
+}
+chrome.runtime.onInstalled.addListener(ensureKeepAlive);
+chrome.runtime.onStartup.addListener(ensureKeepAlive);
+ensureKeepAlive(); // also when the service worker first spins up
+
+function keepGmailAlive() {
+  chrome.tabs.query({ url: "https://mail.google.com/*" }, (tabs) => {
+    if (chrome.runtime.lastError || !tabs) return;
+    for (const tab of tabs) {
+      if (!tab.id) continue;
+      // Exclude this inbox from Memory Saver so it isn't discarded while idle.
+      chrome.tabs.update(tab.id, { autoDiscardable: false }, () => void chrome.runtime.lastError);
+      // Nudge the content script to scan now (runs immediately, unthrottled).
+      chrome.tabs.sendMessage(tab.id, { type: "SCAN_NOW" }, () => {
+        if (chrome.runtime.lastError && tab.discarded) {
+          // Tab was discarded and the scraper is gone — revive it.
+          chrome.tabs.reload(tab.id, () => void chrome.runtime.lastError);
+        }
+      });
+    }
+  });
+}
+
+// Clear the badge once the code goes stale, and run the keep-alive each minute.
 chrome.alarms?.onAlarm.addListener((alarm) => {
+  if (alarm.name === KEEPALIVE_ALARM) {
+    keepGmailAlive();
+    return;
+  }
   if (alarm.name === "clearBadge") {
     chrome.storage.local.get("latestOtp", ({ latestOtp }) => {
       const anchor = latestOtp && (latestOtp.emailTs || latestOtp.capturedAt);

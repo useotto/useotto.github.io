@@ -14,7 +14,11 @@ them into verification-code fields on the site you're logging into.
 - **alarms** — Clears the toolbar badge when the code's 10-minute window ends.
 - **Host permission `https://mail.google.com/*`** — Required to read the inbox
   list and extract the verification code. Otto reads only the inbox subject and
-  preview text; it does not open emails or read full message bodies.
+  preview text; it does not open emails or read full message bodies. This grant
+  also lets the extension keep that one Gmail tab alive (non-discardable) and
+  ping it to scan once a minute so detection keeps working while it's a
+  background tab. (No broad `tabs` permission is requested — only the Gmail tab
+  is touched, via this host grant.)
 - **`<all_urls>` content script** — Required because a verification code can be
   requested on any website, so Otto must be able to detect the code field and
   offer to fill it anywhere. Otto only interacts with inputs that look like OTP

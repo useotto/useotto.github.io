@@ -44,7 +44,11 @@ A code is offered for **10 minutes** after it arrives.
   snippet previews (so it never opens an email), extracts the code, **and works
   out which service it's for** (from the sender domain + wording like "sign in
   to SuperDM"). Each capture is stamped with `capturedAt` and a unique `id`.
-- `src/background.js` stores the latest code in `chrome.storage.local`.
+- `src/background.js` stores the latest code in `chrome.storage.local`, and runs
+  a **1-minute keep-alive**: it marks the Gmail tab non-discardable (so Chrome's
+  Memory Saver won't drop it) and pings the scraper to scan — which keeps
+  detection working even when Gmail is a backgrounded tab whose own timers are
+  throttled. Uses only the existing `alarms` + `mail.google.com` host grant.
 - `src/autofill.js` runs on every page, detects verification-code inputs
   (including split single-digit box layouts and React/Vue controlled inputs),
   and renders the suggestion chip in a shadow DOM so site styles can't break it.
