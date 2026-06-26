@@ -30,4 +30,39 @@ function render(otp) {
   });
 }
 
-chrome.storage.local.get("latestOtp", ({ latestOtp }) => render(latestOtp));
+function renderStatus(status) {
+  const el = document.getElementById("status");
+  const state = (status && status.state) || "none";
+  const label =
+    state === "active"
+      ? "Watching your inbox"
+      : state === "reviving"
+        ? "Reconnecting to Gmail…"
+        : "No Gmail tab open";
+  el.className = `status ${state}`;
+  el.innerHTML = `<span class="dot"></span> ${label}`;
+
+  if (state === "none") {
+    const btn = document.createElement("button");
+    btn.className = "open-gmail";
+    btn.textContent = "Open Gmail";
+    btn.addEventListener("click", () => {
+      chrome.tabs.create({ url: "https://mail.google.com/" });
+      window.close();
+    });
+    el.after(btn);
+  }
+}
+
+chrome.storage.local.get(["latestOtp", "gmailStatus"], ({ latestOtp, gmailStatus }) => {
+  renderStatus(gmailStatus);
+  render(latestOtp);
+});
+
+// Live-update the status if it changes while the popup is open.
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "local" && changes.gmailStatus) {
+    document.querySelectorAll(".open-gmail").forEach((b) => b.remove());
+    renderStatus(changes.gmailStatus.newValue);
+  }
+});

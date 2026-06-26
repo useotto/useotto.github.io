@@ -72,23 +72,71 @@ function ensureKeepAlive() {
 chrome.runtime.onInstalled.addListener(ensureKeepAlive);
 chrome.runtime.onStartup.addListener(ensureKeepAlive);
 ensureKeepAlive(); // also when the service worker first spins up
+keepGmailAlive(); // check health right away, don't wait for the first alarm
 
-function keepGmailAlive() {
-  chrome.tabs.query({ url: "https://mail.google.com/*" }, (tabs) => {
-    if (chrome.runtime.lastError || !tabs) return;
-    for (const tab of tabs) {
-      if (!tab.id) continue;
-      // Exclude this inbox from Memory Saver so it isn't discarded while idle.
-      chrome.tabs.update(tab.id, { autoDiscardable: false }, () => void chrome.runtime.lastError);
-      // Nudge the content script to scan now (runs immediately, unthrottled).
-      chrome.tabs.sendMessage(tab.id, { type: "SCAN_NOW" }, () => {
-        if (chrome.runtime.lastError && tab.discarded) {
-          // Tab was discarded and the scraper is gone — revive it.
-          chrome.tabs.reload(tab.id, () => void chrome.runtime.lastError);
-        }
-      });
+const RELOAD_COOLDOWN_MS = 2 * 60 * 1000; // don't reload the same tab more often
+
+// Ping a tab's content script. Resolves true if it answered (reachable),
+// false if there's no receiver (discarded, crashed, or script not injected).
+function pingTab(tabId) {
+  return new Promise((resolve) => {
+    try {
+      chrome.tabs.sendMessage(tabId, { type: "SCAN_NOW" }, () => resolve(!chrome.runtime.lastError));
+    } catch (e) {
+      resolve(false);
     }
   });
+}
+
+async function reviveTab(tabId) {
+  const { lastGmailReloadAt = 0 } = await chrome.storage.local.get("lastGmailReloadAt");
+  if (Date.now() - lastGmailReloadAt < RELOAD_COOLDOWN_MS) return; // cooldown: avoid reload loops
+  await chrome.storage.local.set({ lastGmailReloadAt: Date.now() });
+  try {
+    await chrome.tabs.reload(tabId);
+  } catch (e) {
+    /* tab vanished mid-flight — ignore */
+  }
+}
+
+function setStatus(state) {
+  chrome.storage.local.set({ gmailStatus: { state, ts: Date.now() } });
+}
+
+// Detect the Gmail tab's health and auto-fix what we can:
+//   - no tab open      -> status "none" (popup invites the user to open Gmail)
+//   - discarded/crashed-> reload to revive the scraper (with a cooldown)
+//   - reachable        -> keep it non-discardable and ask it to scan
+async function keepGmailAlive() {
+  let tabs;
+  try {
+    tabs = await chrome.tabs.query({ url: "https://mail.google.com/*" });
+  } catch (e) {
+    return;
+  }
+
+  if (!tabs || tabs.length === 0) {
+    setStatus("none");
+    return;
+  }
+
+  let anyReachable = false;
+  for (const tab of tabs) {
+    if (!tab.id) continue;
+    chrome.tabs.update(tab.id, { autoDiscardable: false }, () => void chrome.runtime.lastError);
+
+    const reachable = await pingTab(tab.id);
+    if (reachable) {
+      anyReachable = true;
+      continue;
+    }
+    // Unreachable: revive if it's discarded, or finished loading but the script
+    // is gone (a crash). Skip tabs still loading — they'll come up on their own.
+    if (tab.discarded || tab.status === "complete") {
+      await reviveTab(tab.id);
+    }
+  }
+  setStatus(anyReachable ? "active" : "reviving");
 }
 
 // Clear the badge once the code goes stale, and run the keep-alive each minute.

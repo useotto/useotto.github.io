@@ -45,10 +45,14 @@ A code is offered for **10 minutes** after it arrives.
   out which service it's for** (from the sender domain + wording like "sign in
   to SuperDM"). Each capture is stamped with `capturedAt` and a unique `id`.
 - `src/background.js` stores the latest code in `chrome.storage.local`, and runs
-  a **1-minute keep-alive**: it marks the Gmail tab non-discardable (so Chrome's
-  Memory Saver won't drop it) and pings the scraper to scan — which keeps
-  detection working even when Gmail is a backgrounded tab whose own timers are
-  throttled. Uses only the existing `alarms` + `mail.google.com` host grant.
+  a **1-minute keep-alive + health check**: it marks the Gmail tab
+  non-discardable (so Chrome's Memory Saver won't drop it) and pings the scraper
+  to scan — which keeps detection working even when Gmail is a backgrounded tab
+  whose own timers are throttled. The ping doubles as a reachability test: if the
+  tab is **discarded or crashed** it auto-reloads it (with a cooldown), and if
+  **no Gmail tab is open** it records that so the popup can offer an "Open Gmail"
+  button. Status (`active` / `reviving` / `none`) is surfaced in the popup. Uses
+  only the existing `alarms` + `mail.google.com` host grant.
 - `src/autofill.js` runs on every page, detects verification-code inputs
   (including split single-digit box layouts and React/Vue controlled inputs),
   and renders the suggestion chip in a shadow DOM so site styles can't break it.

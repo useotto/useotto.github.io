@@ -38,11 +38,26 @@
       .donate:hover { background: #2a2a31; border-color: #5a5a63; color: #fff; }
       .donate .heart { color: #ff5c7a; }
       .hint { color: #9aa0a6; font-size: 11px; margin-top: 12px; }
+      .status {
+        display: flex; align-items: center; gap: 7px;
+        font-size: 11px; color: #b7b7bf; margin-bottom: 12px;
+      }
+      .status .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+      .status.active .dot { background: #3ddc84; box-shadow: 0 0 7px #3ddc84; }
+      .status.reviving .dot { background: #e6b05a; }
+      .status.none .dot { background: #e0564f; }
+      .open-gmail {
+        width: 100%; margin: 4px 0 2px; padding: 9px; border: none;
+        border-radius: 8px; background: #2a2a31; color: #fff;
+        font-weight: 600; cursor: pointer;
+      }
+      .open-gmail:hover { background: #34343c; }
     </style>
   </head>
   <body>
     <div class="wrap">
       <h1>Otto · Email OTP Autofill</h1>
+      <div id="status"></div>
       <div id="content"></div>
       <a class="donate" href="https://github.com/sponsors/useotto"
          target="_blank" rel="noopener">
