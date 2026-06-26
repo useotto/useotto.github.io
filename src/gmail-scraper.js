@@ -241,8 +241,11 @@
   // delivered immediately even when this tab is backgrounded and its own
   // setInterval is throttled — so detection keeps working in the background.
   try {
-    chrome.runtime.onMessage.addListener((msg) => {
-      if (msg && msg.type === "SCAN_NOW") scan();
+    chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+      if (msg && msg.type === "SCAN_NOW") {
+        scan();
+        sendResponse({ ok: true }); // MUST reply so the background knows we're alive
+      }
     });
   } catch (e) {
     // Extension context invalidated after a reload — ignore.

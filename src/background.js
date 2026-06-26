@@ -76,12 +76,15 @@ keepGmailAlive(); // check health right away, don't wait for the first alarm
 
 const RELOAD_COOLDOWN_MS = 2 * 60 * 1000; // don't reload the same tab more often
 
-// Ping a tab's content script. Resolves true if it answered (reachable),
-// false if there's no receiver (discarded, crashed, or script not injected).
+// Ping a tab's content script. Resolves true only if it actually replied
+// ({ ok: true }) — i.e. the scraper is alive and just ran a scan.
 function pingTab(tabId) {
   return new Promise((resolve) => {
     try {
-      chrome.tabs.sendMessage(tabId, { type: "SCAN_NOW" }, () => resolve(!chrome.runtime.lastError));
+      chrome.tabs.sendMessage(tabId, { type: "SCAN_NOW" }, (resp) => {
+        void chrome.runtime.lastError; // swallow "no receiver" / "port closed"
+        resolve(!!(resp && resp.ok));
+      });
     } catch (e) {
       resolve(false);
     }
@@ -130,9 +133,10 @@ async function keepGmailAlive() {
       anyReachable = true;
       continue;
     }
-    // Unreachable: revive if it's discarded, or finished loading but the script
-    // is gone (a crash). Skip tabs still loading — they'll come up on their own.
-    if (tab.discarded || tab.status === "complete") {
+    // Only reload a tab Chrome has actually DISCARDED (unloaded). We never
+    // reload a loaded tab just because a ping was slow — that caused unwanted
+    // refreshes. A discarded tab reloading is harmless: it was already unloaded.
+    if (tab.discarded) {
       await reviveTab(tab.id);
     }
   }
